@@ -3,6 +3,8 @@ import sys
 from pypcd import pypcd
 import numpy as np
 import open3d as o3d
+
+
 # import rosbag
 # import sensor_msgs.point_cloud2
 
@@ -10,6 +12,7 @@ def viz_scan(scan):
     o3d_cloud = o3d.geometry.PointCloud()
     o3d_cloud.points = o3d.utility.Vector3dVector(scan[:, :3])
     o3d.visualization.draw_geometries([o3d_cloud])
+
 
 class DataLoader:
     def __init__(self, path, name=None):
@@ -40,20 +43,22 @@ class PCDLoader(DataLoader):
             return raw_data
         else:
             print("Access out of range!")
-    
+
     def sort_files(self):
         self.file_list.sort(key=lambda file: int(file[:-4]))
+
 
 class KittiLoader(DataLoader):
     def get_pc(self, index):
         if index < self.scan_num:
-            scan = np.fromfile(os.path.join(self.path, self.file_list[index]), dtype=np.float32).reshape(-1,4)
+            scan = np.fromfile(os.path.join(self.path, self.file_list[index]), dtype=np.float32).reshape(-1, 4)
             return scan
         else:
             print("Access out of range!")
 
     def sort_files(self):
         self.file_list.sort(key=lambda file: int(file[:-4]))
+
 
 class NPYLoader(DataLoader):
     def get_pc(self, index):
@@ -62,14 +67,15 @@ class NPYLoader(DataLoader):
             return scan
         else:
             print("Access out of range!")
-    
+
     def sort_files(self):
         self.file_list.sort(key=lambda file: int(file[:-4]))
-    
+
     def viz(self):
         for i in range(self.scan_num):
             scan = self.get_pc(i)
             viz_scan(scan)
+
 
 """          
 class ROSBagLoader:
@@ -82,16 +88,16 @@ class ROSBagLoader:
             self.scans.append(cloud)
         self.scan_num = len(self.scans)
         print('Loaded rosbag:', path)
-        
+
     def __getitem__(self, index):
         if index < self.scan_num:
             return self.scans[index]
         else:
             print("Access out of range!")
-    
+
     def __len__(self):
         return self.scan_num
-    
+
     def point_list_to_cloud(self, pts_list):
         cloud = []
         for pt in pts_list:

@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--kitti_path', type=str, help='Input folder of KITTI .bin files')
 parser.add_argument('--config_path', type=str, help='Configuration file')
 
-if __name__== '__main__':
+if __name__ == '__main__':
     args = parser.parse_args()
     loader = KittiLoader(path=args.kitti_path, name='Kitti dataset')
 
@@ -18,7 +18,7 @@ if __name__== '__main__':
         with open(args.config_path) as config_file:
             config_data = config_file.read()
             config = json.loads(config_data)
-    
+
     odometry = Odometry(config=config)
     mapper = Mapper(config=config)
     skip_frame = 5
