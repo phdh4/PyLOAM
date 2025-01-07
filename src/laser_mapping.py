@@ -415,4 +415,4 @@ class Mapper:
             np.savetxt('Mapped_frame_' + str(self.frame_count) + '.txt', map_pts, fmt='%.8f')
 
         self.frame_count += 1
-        return self.trans_w_curr
+        return self.transform

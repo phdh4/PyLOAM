@@ -4,14 +4,10 @@ from pypcd import pypcd
 import numpy as np
 import open3d as o3d
 
+import rosbag
+import sensor_msgs.point_cloud2
 
-# import rosbag
-# import sensor_msgs.point_cloud2
-
-def viz_scan(scan):
-    o3d_cloud = o3d.geometry.PointCloud()
-    o3d_cloud.points = o3d.utility.Vector3dVector(scan[:, :3])
-    o3d.visualization.draw_geometries([o3d_cloud])
+from src.utils import viz_scan
 
 
 class DataLoader:
@@ -77,7 +73,6 @@ class NPYLoader(DataLoader):
             viz_scan(scan)
 
 
-"""          
 class ROSBagLoader:
     def __init__(self, path, topic):
         bag = rosbag.Bag(path)
@@ -105,4 +100,3 @@ class ROSBagLoader:
             cloud.append(pt_np)
         cloud = np.vstack(cloud)
         return cloud
-"""

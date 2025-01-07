@@ -33,3 +33,8 @@ def get_mean_cov(cloud):
 
 def cloud_to_list(cloud):
     return [cloud[i, :3].reshape(1,3) for i in range(cloud.shape[0])]
+
+def viz_scan(scan):
+    o3d_cloud = o3d.geometry.PointCloud()
+    o3d_cloud.points = o3d.utility.Vector3dVector(scan[:, :3])
+    o3d.visualization.draw_geometries([o3d_cloud])
